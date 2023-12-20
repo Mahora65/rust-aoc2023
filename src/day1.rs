@@ -1,7 +1,7 @@
 use std::{collections::HashMap, fs};
 
 pub fn aoc2023day1() {
-    let input = fs::read_to_string("../inputs/day1.txt").unwrap();
+    let input = fs::read_to_string("inputs/day1.txt").unwrap();
 
     println!("The results of Advent of Code 2023 Day1:");
     println!("    Part I:  {}", part1(&input));

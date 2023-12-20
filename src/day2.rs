@@ -77,7 +77,7 @@ impl Round {
 }
 
 pub fn aoc2023day2() {
-    let input = fs::read_to_string("../inputs/day2.txt").unwrap();
+    let input = fs::read_to_string("inputs/day2.txt").unwrap();
 
     let bag = Bag {
         red: 12,
