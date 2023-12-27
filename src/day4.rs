@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fs};
+use std::{collections::HashSet, fs, usize};
 
 pub fn aoc2023day4() {
     let input = fs::read_to_string("inputs/day4.txt").unwrap();
@@ -25,13 +25,37 @@ fn part1(input: &str) -> u32 {
         .sum()
 }
 fn part2(input: &str) -> u32 {
-    unimplemented!();
+    let deck: Vec<(usize, usize)> = input
+        .lines()
+        .flat_map(|line| line.split(':'))
+        .filter(|ele| ele.contains('|'))
+        .map(|card| {
+            card.split('|')
+                .map(|scard| scard.split_whitespace().collect())
+                .collect::<Vec<HashSet<&str>>>()
+        })
+        .map(|sets| sets[0].intersection(&sets[1]).count())
+        .enumerate()
+        .collect();
+
+    let mut num_cards = vec![1; deck.len()];
+    for (i, num_matched) in deck {
+        let start = i + 1;
+        let end = i + num_matched;
+        for j in start..=end {
+            if j < num_cards.len() {
+                num_cards[j] += num_cards[i];
+            }
+        }
+    }
+
+    num_cards.iter().sum()
 }
 
 #[cfg(test)]
 mod test {
 
-    use crate::day4::part1;
+    use crate::day4::{part1, part2};
 
     const INPUT: &str = "Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
 Card 2: 13 32 20 16 61 | 61 30 68 82 17 32 24 19
@@ -46,6 +70,6 @@ Card 6: 31 18 13 56 72 | 74 77 10 23 35 67 36 11";
     }
     #[test]
     fn test_aoc2023day4_par2() {
-        unimplemented!();
+        assert_eq!(part2(INPUT), 30);
     }
 }
